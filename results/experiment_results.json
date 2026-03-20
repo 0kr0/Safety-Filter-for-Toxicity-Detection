@@ -1,0 +1,171 @@
+{
+  "results": [
+    {
+      "name": "Rule-based",
+      "train_time": 0.0,
+      "infer_time": 0.01186,
+      "metrics": {
+        "precision": 0.3492,
+        "recall": 0.2683,
+        "f1": 0.3034,
+        "roc_auc": null,
+        "fpr": 0.0447,
+        "fnr": 0.7317
+      }
+    },
+    {
+      "name": "TF-IDF + LR",
+      "train_time": 0.8284,
+      "infer_time": 0.039503,
+      "metrics": {
+        "precision": 0.3919,
+        "recall": 0.3537,
+        "f1": 0.3718,
+        "roc_auc": 0.8264,
+        "fpr": 0.049,
+        "fnr": 0.6463
+      }
+    },
+    {
+      "name": "DistilBERT",
+      "train_time": 1761.455,
+      "infer_time": 12.346735,
+      "metrics": {
+        "precision": 0.7031,
+        "recall": 0.5488,
+        "f1": 0.6164,
+        "roc_auc": 0.9592,
+        "fpr": 0.0207,
+        "fnr": 0.4512
+      }
+    }
+  ],
+  "hyperparam": {
+    "C_vals": [
+      0.001,
+      0.01,
+      0.1,
+      0.5,
+      1.0,
+      5.0,
+      10.0,
+      50.0
+    ],
+    "C_f1": [
+      0.3248,
+      0.319,
+      0.359,
+      0.3735,
+      0.3718,
+      0.32,
+      0.2881,
+      0.2679
+    ],
+    "feat_vals": [
+      1000,
+      5000,
+      10000,
+      20000,
+      50000
+    ],
+    "feat_f1": [
+      0.2547,
+      0.3524,
+      0.3636,
+      0.3473,
+      0.3718
+    ]
+  },
+  "ablation": {
+    "Rule-based": {
+      "sizes": [
+        200,
+        500,
+        1000,
+        2000,
+        4000,
+        6000,
+        9000
+      ],
+      "f1": [
+        0.3034,
+        0.3034,
+        0.3034,
+        0.3034,
+        0.3034,
+        0.3034,
+        0.3034
+      ]
+    },
+    "TF-IDF+LR": {
+      "sizes": [
+        200,
+        500,
+        1000,
+        2000,
+        4000,
+        6000,
+        9000
+      ],
+      "f1": [
+        0.023,
+        0.0235,
+        0.0455,
+        0.2075,
+        0.315,
+        0.3235,
+        0.3718
+      ]
+    }
+  },
+  "fp_fn": {
+    "Rule-based": {
+      "false_positives": [
+        "Wow.. Here they come! The insightful left with their Look at his income! (while trying to brush Federal investigation so",
+        "Hi OS:  \"... Where did you get your quotes? ...\"  Mainly Wikipdia for the aflatoxin summary.  Go to Wikipedia.org, searc",
+        "We realize that, but as McKenzie said, sometimes you have to do what is right, ignore the bureaucrats, but be prepared t",
+        "In the same tone, how many people die every day, leaving grieving friends and family? People who do good deeds and are c",
+        "Aside from its traditional meaning, 'Church Militant' has become a code word for an ugly strain of intolerance in the na"
+      ],
+      "false_negatives": [
+        "And the problem with his hair somehow supersedes his opponents mental and cognizant issues how exactly, muckamuck?",
+        "Trump is a buffoon.  Full stop. Being elected to the presidency by a minority of Americans is not going to fix that.",
+        "Got a love these jerks at the AUSCP.\n\nHow dare you, Pope Francis, attack Gay Priests and support the idea they are less ",
+        "David and Charles Koch card is soooooo over played by the left it appears as ridiculous anymore. A quick check of the fa",
+        "Exactly. Trump is corrupt, incompetent and unstable, and it is easy to see how impeachment could become necessary.  But "
+      ]
+    },
+    "TF-IDF + LR": {
+      "false_positives": [
+        "McConnell is the classic Republican politician.  He apparently could care less about the little guy and how he will hurt",
+        "Wow.. Here they come! The insightful left with their Look at his income! (while trying to brush Federal investigation so",
+        "Hilarious to me that so many come out all angry that Trump is saying  such things as this. Speaking his mind. meanwhile ",
+        "The unqualified reparations-seeking America-hating malevolent narcissist and  usurper of the Oval Office is respected  o",
+        "1) Blacks accounting for over 90% of the arrests when they make up 67% of the population is systematic.\n\n2) You'll have "
+      ],
+      "false_negatives": [
+        "And the problem with his hair somehow supersedes his opponents mental and cognizant issues how exactly, muckamuck?",
+        "Got a love these jerks at the AUSCP.\n\nHow dare you, Pope Francis, attack Gay Priests and support the idea they are less ",
+        "David and Charles Koch card is soooooo over played by the left it appears as ridiculous anymore. A quick check of the fa",
+        "No kidding? Real? Treaduhhh is a moron.",
+        "Congress would never approve his thought of pulling the USA out of Nafta.  This guy is sort of like the schoolyard bully"
+      ]
+    },
+    "DistilBERT": {
+      "false_positives": [
+        "The unqualified reparations-seeking America-hating malevolent narcissist and  usurper of the Oval Office is respected  o",
+        "Actually I don't think Trump is a buffoon.  He was smart enough to learn how to manipulate first his parents and teacher",
+        "I agree 100%.\nDiversity is a dirty word.",
+        "Ridgeway2, since last spring I have had the double misfortune of being ground zero for the ultimate corvid showdown: mag",
+        ".\n\nTrump thinks that the tactics he used to stiff the small contractors building his condos and hotels will work in inte"
+      ],
+      "false_negatives": [
+        "And the problem with his hair somehow supersedes his opponents mental and cognizant issues how exactly, muckamuck?",
+        "David and Charles Koch card is soooooo over played by the left it appears as ridiculous anymore. A quick check of the fa",
+        "Congress would never approve his thought of pulling the USA out of Nafta.  This guy is sort of like the schoolyard bully",
+        "Nope. ten years. More than that it was the experience of having a knife pulled on me, seeing friends and the overall soc",
+        "Your \"facts\"?  No credible sources.  Therefore I call BS.\nThe facts that we do know are these:  She voted for the deal w"
+      ]
+    }
+  }
+}

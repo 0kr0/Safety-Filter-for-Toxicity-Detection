@@ -1,2 +1,12 @@
 /venv
 /data
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+/models/
+/experiments/models/
+*.egg-info/
+.env
+.vscode/
+.idea/

@@ -146,6 +146,32 @@ def load_jigsaw(data_dir: Path = None) -> dict:
     }
 
 
+def load_hf_toxic(n_samples: int = 10000) -> dict:
+    from datasets import load_dataset as hf_load
+
+    ds = hf_load("SetFit/toxic_conversations", split="train")
+    df = ds.to_pandas()
+    df = df.sample(n=min(n_samples, len(df)), random_state=RANDOM_SEED).reset_index(drop=True)
+
+    X = np.array(df["text"].tolist())
+    y = np.array(df["label"].tolist(), dtype=int)
+
+    X_train, X_val, y_train, y_val = train_test_split(
+        X, y, test_size=VAL_RATIO, random_state=RANDOM_SEED, stratify=y
+    )
+
+    return {
+        "train_df": df,
+        "X_train": X_train,
+        "y_train": y_train,
+        "X_val": X_val,
+        "y_val": y_val,
+        "X_test": None,
+        "y_test": None,
+        "test_df": None,
+    }
+
+
 def get_eval_split(data: dict) -> tuple:
     """Use validation set for evaluation (test has no labels in Jigsaw)."""
     return data["X_val"], data["y_val"]
