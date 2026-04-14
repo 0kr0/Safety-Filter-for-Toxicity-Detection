@@ -48,8 +48,16 @@ def measure_inference_time(model, X: np.ndarray, n_runs: int = 3) -> float:
     return np.mean(times)
 
 
-def run_baseline(name: str, model, data: dict, has_proba: bool = False) -> dict:
+def run_baseline(
+    name: str,
+    model,
+    data: dict,
+    has_proba: bool = False,
+    optimize_threshold: bool = False,
+) -> dict:
     """Train, evaluate, and time a baseline model."""
+    from .threshold_optimizer import find_optimal_threshold, apply_threshold
+
     X_train, y_train = data["X_train"], data["y_train"]
     X_val, y_val = data["X_val"], data["y_val"]
 
@@ -68,12 +76,22 @@ def run_baseline(name: str, model, data: dict, has_proba: bool = False) -> dict:
     metrics = evaluate(y_val, y_pred, y_proba)
     infer_time = measure_inference_time(model, X_val[:1000])
 
-    return {
+    result = {
         "name": name,
         "metrics": metrics,
         "train_time_s": train_time,
         "inference_time_s": infer_time,
     }
+
+    if optimize_threshold and y_proba is not None:
+        opt = find_optimal_threshold(y_val, y_proba, metric="f1")
+        y_pred_opt = apply_threshold(y_proba, opt["threshold"])
+        metrics_opt = evaluate(y_val, y_pred_opt, y_proba)
+        result["optimal_threshold"] = opt["threshold"]
+        result["metrics_optimized"] = metrics_opt
+        print(f"  Optimal threshold: {opt['threshold']:.3f} (F1: {opt['score']:.4f} vs default {metrics['f1']:.4f})")
+
+    return result
 
 
 def print_results(results: list):

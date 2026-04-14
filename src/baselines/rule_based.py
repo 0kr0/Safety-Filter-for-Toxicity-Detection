@@ -29,14 +29,18 @@ class RuleBasedClassifier:
             # Fallback minimal set
             self.bad_words = {"stupid", "idiot", "hate", "kill", "dumb", "ugly", "trash"}
 
-    def predict(self, X) -> np.ndarray:
+    def predict(self, X, normalize: bool = True) -> np.ndarray:
         """Predict 1 if toxic, 0 otherwise."""
+        from ..text_normalize import normalize_text
         if isinstance(X, str):
             X = [X]
         X = np.atleast_1d(X)
         preds = np.zeros(len(X), dtype=int)
         for i, text in enumerate(X):
-            text = str(text).lower()
+            text = str(text)
+            if normalize:
+                text = normalize_text(text)
+            text = text.lower()
             words = set(re.findall(r"\b\w+\b", text))
             if words & self.bad_words:
                 preds[i] = 1

@@ -23,10 +23,20 @@ class TFIDFLogisticRegressionClassifier:
         self.pipeline.fit(X.ravel(), y)
         return self
 
-    def predict(self, X) -> np.ndarray:
+    @staticmethod
+    def _normalize_input(X, normalize: bool):
         X = np.atleast_2d(X) if X.ndim == 1 else X
-        return self.pipeline.predict(X.ravel()).astype(int)
+        if normalize:
+            from ..text_normalize import normalize_text
+            X = np.array([normalize_text(str(t)) for t in X.ravel()])
+        else:
+            X = X.ravel()
+        return X
 
-    def predict_proba(self, X) -> np.ndarray:
-        X = np.atleast_2d(X) if X.ndim == 1 else X
-        return self.pipeline.predict_proba(X.ravel())
+    def predict(self, X, normalize: bool = True) -> np.ndarray:
+        X = self._normalize_input(np.atleast_1d(X), normalize)
+        return self.pipeline.predict(X).astype(int)
+
+    def predict_proba(self, X, normalize: bool = True) -> np.ndarray:
+        X = self._normalize_input(np.atleast_1d(X), normalize)
+        return self.pipeline.predict_proba(X)

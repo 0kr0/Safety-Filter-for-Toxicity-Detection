@@ -12,14 +12,16 @@ from sklearn.model_selection import train_test_split
 from .config import DATA_DIR, TRAIN_CSV, TEST_CSV, VAL_RATIO, RANDOM_SEED, TOXICITY_LABELS
 
 
-def clean_text(text: str) -> str:
-    """Basic text cleaning: lowercasing, handle special chars."""
+def clean_text(text: str, normalize: bool = True) -> str:
+    """Basic text cleaning: lowercasing, handle special chars, optional adversarial normalization."""
     if pd.isna(text):
         return ""
-    text = str(text).lower()
-    # Remove excessive whitespace
+    text = str(text)
+    if normalize:
+        from .text_normalize import normalize_text
+        text = normalize_text(text)
+    text = text.lower()
     text = re.sub(r"\s+", " ", text)
-    # Remove URLs
     text = re.sub(r"https?://\S+|www\.\S+", "", text)
     text = text.strip()
     return text
@@ -146,12 +148,18 @@ def load_jigsaw(data_dir: Path = None) -> dict:
     }
 
 
-def load_hf_toxic(n_samples: int = 10000) -> dict:
+def load_hf_toxic(n_samples: int = 10000, full: bool = False) -> dict:
+    """
+    Load Toxic Conversations dataset from HuggingFace.
+    If full=True, uses the entire dataset (~50K samples) instead of sampling.
+    """
     from datasets import load_dataset as hf_load
 
     ds = hf_load("SetFit/toxic_conversations", split="train")
     df = ds.to_pandas()
-    df = df.sample(n=min(n_samples, len(df)), random_state=RANDOM_SEED).reset_index(drop=True)
+
+    if not full:
+        df = df.sample(n=min(n_samples, len(df)), random_state=RANDOM_SEED).reset_index(drop=True)
 
     X = np.array(df["text"].tolist())
     y = np.array(df["label"].tolist(), dtype=int)
@@ -169,6 +177,7 @@ def load_hf_toxic(n_samples: int = 10000) -> dict:
         "X_test": None,
         "y_test": None,
         "test_df": None,
+        "name": "Toxic Conversations",
     }
 
 

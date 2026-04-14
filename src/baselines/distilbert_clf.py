@@ -72,11 +72,19 @@ class DistilBERTClassifier:
         ]
         return self
 
-    def predict(self, X) -> np.ndarray:
+    @staticmethod
+    def _normalize_input(X, normalize: bool):
+        X = np.atleast_1d(X)
+        if normalize:
+            from ..text_normalize import normalize_text
+            X = np.array([normalize_text(str(t)) for t in X])
+        return X
+
+    def predict(self, X, normalize: bool = True) -> np.ndarray:
         if self.tokenizer is None or self.model is None:
             raise RuntimeError("Model not fitted. Call fit() first.")
 
-        X = np.atleast_1d(X)
+        X = self._normalize_input(X, normalize)
         self.model.eval()
         preds_list = []
         batch_size = 32
@@ -96,11 +104,11 @@ class DistilBERTClassifier:
 
         return np.array(preds_list, dtype=int)
 
-    def predict_proba(self, X) -> np.ndarray:
+    def predict_proba(self, X, normalize: bool = True) -> np.ndarray:
         if self.tokenizer is None or self.model is None:
             raise RuntimeError("Model not fitted. Call fit() first.")
 
-        X = np.atleast_1d(X)
+        X = self._normalize_input(X, normalize)
         self.model.eval()
         proba_list = []
         batch_size = 32

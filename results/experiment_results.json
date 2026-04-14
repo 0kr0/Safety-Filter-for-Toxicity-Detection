@@ -3,43 +3,73 @@
     {
       "name": "Rule-based",
       "train_time": 0.0,
-      "infer_time": 0.01186,
+      "infer_time": 0.220612,
       "metrics": {
-        "precision": 0.3492,
-        "recall": 0.2683,
-        "f1": 0.3034,
+        "precision": 0.4146,
+        "recall": 0.2073,
+        "f1": 0.2764,
         "roc_auc": null,
-        "fpr": 0.0447,
-        "fnr": 0.7317
+        "fpr": 0.0261,
+        "fnr": 0.7927
       }
     },
     {
       "name": "TF-IDF + LR",
-      "train_time": 0.8284,
-      "infer_time": 0.039503,
+      "train_time": 3.2075,
+      "infer_time": 0.305919,
       "metrics": {
-        "precision": 0.3919,
-        "recall": 0.3537,
-        "f1": 0.3718,
-        "roc_auc": 0.8264,
-        "fpr": 0.049,
-        "fnr": 0.6463
+        "precision": 0.3881,
+        "recall": 0.3171,
+        "f1": 0.349,
+        "roc_auc": 0.8238,
+        "fpr": 0.0447,
+        "fnr": 0.6829
       }
     },
     {
       "name": "DistilBERT",
-      "train_time": 1761.455,
-      "infer_time": 12.346735,
+      "train_time": 7350.2832,
+      "infer_time": 64.719016,
       "metrics": {
-        "precision": 0.7031,
-        "recall": 0.5488,
-        "f1": 0.6164,
-        "roc_auc": 0.9592,
+        "precision": 0.6957,
+        "recall": 0.5854,
+        "f1": 0.6358,
+        "roc_auc": 0.9502,
+        "fpr": 0.0229,
+        "fnr": 0.4146
+      }
+    },
+    {
+      "name": "Ensemble",
+      "train_time": 9740.6905,
+      "infer_time": 61.778443,
+      "metrics": {
+        "precision": 0.7164,
+        "recall": 0.5854,
+        "f1": 0.6443,
+        "roc_auc": 0.9431,
         "fpr": 0.0207,
-        "fnr": 0.4512
+        "fnr": 0.4146
       }
     }
   ],
+  "threshold_optimization": {
+    "TF-IDF + LR": {
+      "threshold": 0.4483,
+      "default_f1": 0.349,
+      "optimized_f1": 0.4022
+    },
+    "DistilBERT": {
+      "threshold": 0.0198,
+      "default_f1": 0.6358,
+      "optimized_f1": 0.6735
+    },
+    "Ensemble": {
+      "threshold": 0.0642,
+      "default_f1": 0.6443,
+      "optimized_f1": 0.6816
+    }
+  },
   "hyperparam": {
     "C_vals": [
       0.001,
@@ -52,14 +82,14 @@
       50.0
     ],
     "C_f1": [
-      0.3248,
-      0.319,
-      0.359,
-      0.3735,
-      0.3718,
-      0.32,
+      0.318,
+      0.3234,
+      0.3553,
+      0.3855,
+      0.349,
+      0.3226,
       0.2881,
-      0.2679
+      0.25
     ],
     "feat_vals": [
       1000,
@@ -69,11 +99,11 @@
       50000
     ],
     "feat_f1": [
-      0.2547,
-      0.3524,
-      0.3636,
-      0.3473,
-      0.3718
+      0.2585,
+      0.3704,
+      0.3596,
+      0.3494,
+      0.349
     ]
   },
   "ablation": {
@@ -88,13 +118,13 @@
         9000
       ],
       "f1": [
-        0.3034,
-        0.3034,
-        0.3034,
-        0.3034,
-        0.3034,
-        0.3034,
-        0.3034
+        0.2764,
+        0.2764,
+        0.2764,
+        0.2764,
+        0.2764,
+        0.2764,
+        0.2764
       ]
     },
     "TF-IDF+LR": {
@@ -109,23 +139,308 @@
       ],
       "f1": [
         0.023,
-        0.0235,
+        0.0233,
         0.0455,
-        0.2075,
-        0.315,
-        0.3235,
-        0.3718
+        0.1748,
+        0.3077,
+        0.3429,
+        0.349
       ]
+    }
+  },
+  "augmentation": {
+    "TF-IDF+LR": {
+      "baseline": 0.349,
+      "augmented": 0.272
+    },
+    "Rule-based": {
+      "baseline": 0.2764,
+      "augmented": 0.2764
+    }
+  },
+  "adversarial": {
+    "Rule-based": {
+      "clean": {
+        "f1": 0.2764,
+        "precision": 0.4146,
+        "recall": 0.2073
+      },
+      "leetspeak": {
+        "f1": 0.2632,
+        "precision": 0.4688,
+        "recall": 0.1829,
+        "f1_drop": 0.0133,
+        "flip_rate": 0.009,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Th3 CHURCH 1s the P30p1e of G0d NOW!  We @re n07 1!ving in the p4st.  Is Papr0cki a bi5hop !n 1at1n "
+      },
+      "char_substitution": {
+        "f1": 0.2281,
+        "precision": 0.4062,
+        "recall": 0.1585,
+        "f1_drop": 0.0484,
+        "flip_rate": 0.017,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "The CHURCH ka ghe People of Goe NOW!  We afe hot living ib ghe oast.  Is Paprocki a bishop ih Latin "
+      },
+      "insert_spaces": {
+        "f1": 0.2185,
+        "precision": 0.3514,
+        "recall": 0.1585,
+        "f1_drop": 0.0579,
+        "flip_rate": 0.004,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "The CHURCH is the People of God NOW! We are not living in the past. Is Paprocki a bishop in L a t i "
+      },
+      "homoglyph": {
+        "f1": 0.2764,
+        "precision": 0.4146,
+        "recall": 0.2073,
+        "f1_drop": 0.0,
+        "flip_rate": 0.0,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Th\u0435 CHUR\u0441H is the People of G\u043ed NOW!  We are n\u043et living in th\u0435 past.  Is P\u0430\u0440r\u043ecki a bishop in Latin "
+      },
+      "repeat_chars": {
+        "f1": 0.1818,
+        "precision": 0.2131,
+        "recall": 0.1585,
+        "f1_drop": 0.0946,
+        "flip_rate": 0.044,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Theee CHURCH iss thee Peoople of God NNNOW!  Weee are not lllliving in the past.  IIs Paprocki a bis"
+      }
+    },
+    "TF-IDF+LR": {
+      "clean": {
+        "f1": 0.349,
+        "precision": 0.3881,
+        "recall": 0.3171
+      },
+      "leetspeak": {
+        "f1": 0.3077,
+        "precision": 0.3607,
+        "recall": 0.2683,
+        "f1_drop": 0.0413,
+        "flip_rate": 0.024,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Th3 CHURCH 1s the P30p1e of G0d NOW!  We @re n07 1!ving in the p4st.  Is Papr0cki a bi5hop !n 1at1n "
+      },
+      "char_substitution": {
+        "f1": 0.303,
+        "precision": 0.4,
+        "recall": 0.2439,
+        "f1_drop": 0.046,
+        "flip_rate": 0.045,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "The CHURCH ka ghe People of Goe NOW!  We afe hot living ib ghe oast.  Is Paprocki a bishop ih Latin "
+      },
+      "insert_spaces": {
+        "f1": 0.3333,
+        "precision": 0.3871,
+        "recall": 0.2927,
+        "f1_drop": 0.0157,
+        "flip_rate": 0.025,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "The CHURCH is the People of God NOW! We are not living in the past. Is Paprocki a bishop in L a t i "
+      },
+      "homoglyph": {
+        "f1": 0.349,
+        "precision": 0.3881,
+        "recall": 0.3171,
+        "f1_drop": 0.0,
+        "flip_rate": 0.0,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Th\u0435 CHUR\u0441H is the People of G\u043ed NOW!  We are n\u043et living in th\u0435 past.  Is P\u0430\u0440r\u043ecki a bishop in Latin "
+      },
+      "repeat_chars": {
+        "f1": 0.2432,
+        "precision": 0.2727,
+        "recall": 0.2195,
+        "f1_drop": 0.1058,
+        "flip_rate": 0.061,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Theee CHURCH iss thee Peoople of God NNNOW!  Weee are not lllliving in the past.  IIs Paprocki a bis"
+      }
+    },
+    "DistilBERT": {
+      "clean": {
+        "f1": 0.6358,
+        "precision": 0.6957,
+        "recall": 0.5854
+      },
+      "leetspeak": {
+        "f1": 0.5672,
+        "precision": 0.7308,
+        "recall": 0.4634,
+        "f1_drop": 0.0686,
+        "flip_rate": 0.023,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Th3 CHURCH 1s the P30p1e of G0d NOW!  We @re n07 1!ving in the p4st.  Is Papr0cki a bi5hop !n 1at1n "
+      },
+      "char_substitution": {
+        "f1": 0.4182,
+        "precision": 0.8214,
+        "recall": 0.2805,
+        "f1_drop": 0.2176,
+        "flip_rate": 0.049,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "The CHURCH ka ghe People of Goe NOW!  We afe hot living ib ghe oast.  Is Paprocki a bishop ih Latin "
+      },
+      "insert_spaces": {
+        "f1": 0.5547,
+        "precision": 0.6909,
+        "recall": 0.4634,
+        "f1_drop": 0.081,
+        "flip_rate": 0.022,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "The CHURCH is the People of God NOW! We are not living in the past. Is Paprocki a bishop in L a t i "
+      },
+      "homoglyph": {
+        "f1": 0.6358,
+        "precision": 0.6957,
+        "recall": 0.5854,
+        "f1_drop": 0.0,
+        "flip_rate": 0.0,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Th\u0435 CHUR\u0441H is the People of G\u043ed NOW!  We are n\u043et living in th\u0435 past.  Is P\u0430\u0440r\u043ecki a bishop in Latin "
+      },
+      "repeat_chars": {
+        "f1": 0.3077,
+        "precision": 0.7273,
+        "recall": 0.1951,
+        "f1_drop": 0.3281,
+        "flip_rate": 0.051,
+        "example_original": "The CHURCH is the People of God NOW!  We are not living in the past.  Is Paprocki a bishop in Latin ",
+        "example_perturbed": "Theee CHURCH iss thee Peoople of God NNNOW!  Weee are not lllliving in the past.  IIs Paprocki a bis"
+      }
+    }
+  },
+  "bias": {
+    "subgroups": {
+      "gender": {
+        "male": {
+          "n_samples": 225.0,
+          "n_toxic": 27.0,
+          "n_nontoxic": 198.0,
+          "toxic_rate": 0.12,
+          "fpr": 0.0253,
+          "fnr": 0.4074,
+          "f1": 0.6667,
+          "precision": 0.7619,
+          "recall": 0.5926
+        },
+        "female": {
+          "n_samples": 76.0,
+          "n_toxic": 9.0,
+          "n_nontoxic": 67.0,
+          "toxic_rate": 0.1184,
+          "fpr": 0.0448,
+          "fnr": 0.6667,
+          "f1": 0.4,
+          "precision": 0.5,
+          "recall": 0.3333
+        }
+      },
+      "religion": {
+        "christian": {
+          "n_samples": 30.0,
+          "n_toxic": 5.0,
+          "n_nontoxic": 25.0,
+          "toxic_rate": 0.1667,
+          "fpr": 0.0,
+          "fnr": 0.4,
+          "f1": 0.75,
+          "precision": 1.0,
+          "recall": 0.6
+        },
+        "muslim": {
+          "n_samples": 9.0,
+          "n_toxic": 1.0,
+          "n_nontoxic": 8.0,
+          "toxic_rate": 0.1111,
+          "fpr": 0.0,
+          "fnr": 1.0,
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0
+        }
+      },
+      "race_ethnicity": {
+        "black": {
+          "n_samples": 9.0,
+          "n_toxic": 1.0,
+          "n_nontoxic": 8.0,
+          "toxic_rate": 0.1111,
+          "fpr": 0.0,
+          "fnr": 0.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "white": {
+          "n_samples": 24.0,
+          "n_toxic": 5.0,
+          "n_nontoxic": 19.0,
+          "toxic_rate": 0.2083,
+          "fpr": 0.1053,
+          "fnr": 0.2,
+          "f1": 0.7273,
+          "precision": 0.6667,
+          "recall": 0.8
+        },
+        "asian": {
+          "n_samples": 6.0,
+          "n_toxic": 1.0,
+          "n_nontoxic": 5.0,
+          "toxic_rate": 0.1667,
+          "fpr": 0.0,
+          "fnr": 0.0,
+          "f1": 1.0,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "sexuality": {
+        "lgbtq": {
+          "n_samples": 8.0,
+          "n_toxic": 8.0,
+          "n_nontoxic": 0.0,
+          "toxic_rate": 1.0,
+          "fpr": 0.0,
+          "fnr": 0.5,
+          "f1": 0.6667,
+          "precision": 1.0,
+          "recall": 0.5
+        }
+      }
+    },
+    "aggregate": {
+      "fpr_gap": 0.1053,
+      "fnr_gap": 1.0,
+      "f1_gap": 1.0,
+      "bias_score": 0.7018,
+      "n_subgroups_evaluated": 8.0
+    }
+  },
+  "cross_domain": {
+    "Rule-based": {
+      "in_domain_f1": 0.2764,
+      "cross_domain_f1": 0.4062
+    },
+    "TF-IDF+LR": {
+      "in_domain_f1": 0.349,
+      "cross_domain_f1": 0.3733
     }
   },
   "fp_fn": {
     "Rule-based": {
       "false_positives": [
-        "Wow.. Here they come! The insightful left with their Look at his income! (while trying to brush Federal investigation so",
-        "Hi OS:  \"... Where did you get your quotes? ...\"  Mainly Wikipdia for the aflatoxin summary.  Go to Wikipedia.org, searc",
-        "We realize that, but as McKenzie said, sometimes you have to do what is right, ignore the bureaucrats, but be prepared t",
-        "In the same tone, how many people die every day, leaving grieving friends and family? People who do good deeds and are c",
-        "Aside from its traditional meaning, 'Church Militant' has become a code word for an ugly strain of intolerance in the na"
+        "Aside from its traditional meaning, 'Church Militant' has become a code word for an ugly strain of intolerance in the na",
+        "Just a minute...as a child of the average working class I can assure you that you are not being remotely charitable, nor",
+        "As iread a couple of comments below I want to throw out a couple of truths, fisrt people do not die from \" burning to de",
+        "They're just gassed and demoralized.  I highly doubt suddenly that defense turned to garbage.\n\nThe Broncos need a great ",
+        "\"It would be political suicide for legislators and council members to support rail at that point.\"\n\nNO IT WON'T! Look at"
       ],
       "false_negatives": [
         "And the problem with his hair somehow supersedes his opponents mental and cognizant issues how exactly, muckamuck?",
@@ -154,17 +469,33 @@
     "DistilBERT": {
       "false_positives": [
         "The unqualified reparations-seeking America-hating malevolent narcissist and  usurper of the Oval Office is respected  o",
+        "\"It would be political suicide for legislators and council members to support rail at that point.\"\n\nNO IT WON'T! Look at",
         "Actually I don't think Trump is a buffoon.  He was smart enough to learn how to manipulate first his parents and teacher",
-        "I agree 100%.\nDiversity is a dirty word.",
-        "Ridgeway2, since last spring I have had the double misfortune of being ground zero for the ultimate corvid showdown: mag",
-        ".\n\nTrump thinks that the tactics he used to stiff the small contractors building his condos and hotels will work in inte"
+        "Insanity! Pure unadulterated insanity.  The most privileged among the privileged telling  the less privileged  to check ",
+        "I agree 100%.\nDiversity is a dirty word."
       ],
       "false_negatives": [
         "And the problem with his hair somehow supersedes his opponents mental and cognizant issues how exactly, muckamuck?",
         "David and Charles Koch card is soooooo over played by the left it appears as ridiculous anymore. A quick check of the fa",
-        "Congress would never approve his thought of pulling the USA out of Nafta.  This guy is sort of like the schoolyard bully",
+        "Exactly. Trump is corrupt, incompetent and unstable, and it is easy to see how impeachment could become necessary.  But ",
+        "Your \"facts\"?  No credible sources.  Therefore I call BS.\nThe facts that we do know are these:  She voted for the deal w",
+        "Alabama Evangelical Voters Don't Care How Many Underage Girls Roy Moore Molested-- Here's Why\nFrom rape to who got abort"
+      ]
+    },
+    "Ensemble": {
+      "false_positives": [
+        "The unqualified reparations-seeking America-hating malevolent narcissist and  usurper of the Oval Office is respected  o",
+        "\"It would be political suicide for legislators and council members to support rail at that point.\"\n\nNO IT WON'T! Look at",
+        "Actually I don't think Trump is a buffoon.  He was smart enough to learn how to manipulate first his parents and teacher",
+        "I agree 100%.\nDiversity is a dirty word.",
+        "Ridgeway2, since last spring I have had the double misfortune of being ground zero for the ultimate corvid showdown: mag"
+      ],
+      "false_negatives": [
+        "And the problem with his hair somehow supersedes his opponents mental and cognizant issues how exactly, muckamuck?",
+        "David and Charles Koch card is soooooo over played by the left it appears as ridiculous anymore. A quick check of the fa",
         "Nope. ten years. More than that it was the experience of having a knife pulled on me, seeing friends and the overall soc",
-        "Your \"facts\"?  No credible sources.  Therefore I call BS.\nThe facts that we do know are these:  She voted for the deal w"
+        "Your \"facts\"?  No credible sources.  Therefore I call BS.\nThe facts that we do know are these:  She voted for the deal w",
+        "Alabama Evangelical Voters Don't Care How Many Underage Girls Roy Moore Molested-- Here's Why\nFrom rape to who got abort"
       ]
     }
   }
